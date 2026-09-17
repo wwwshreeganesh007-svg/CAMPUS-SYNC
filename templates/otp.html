@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Verify OTP</h2>
+    <p style="text-align:center; font-size: 12px; margin-bottom:15px; color:red;">Check your VS Code Terminal to see the 4-digit code!</p>
+    <form method="POST">
+        <div class="form-group"><label>Enter OTP</label><input type="text" name="otp" required style="text-align: center; font-size: 20px; letter-spacing: 5px;"></div>
+        <button type="submit" class="btn">Verify</button>
+    </form>
+{% endblock %}

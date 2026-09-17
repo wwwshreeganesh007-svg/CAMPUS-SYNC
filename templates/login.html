@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card" style="max-width: 400px; margin: 40px auto;">
+    <h2 style="text-align: center; color: var(--primary); margin-top:0;">Secure Login</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div style="padding: 10px; margin-bottom: 15px; border-radius: 4px; font-size:14px; color: white; background: {% if category == 'error' %}#d93025{% else %}#1e8e3e{% endif %};">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form method="POST">
+        <input type="email" name="email" class="input-field" placeholder="College Email" required>
+        <input type="password" name="password" class="input-field" placeholder="Password" required>
+        <button type="submit" class="btn" style="width: 100%;">Login</button>
+    </form>
+    <p style="text-align: center; margin-top: 15px; font-size: 14px;">
+        New user? <a href="/signup" style="color: var(--primary); font-weight:bold;">Create Account</a>
+    </p>
+</div>
+{% endblock %}

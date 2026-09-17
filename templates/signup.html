@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card" style="max-width: 400px; margin: 40px auto;">
+    <h2 style="text-align: center; color: var(--primary); margin-top:0;">Account Registration</h2>
+    <form method="POST">
+        <input type="text" name="name" class="input-field" placeholder="Full Name" required>
+        <input type="email" name="email" class="input-field" placeholder="College Email" required>
+        <input type="password" name="password" class="input-field" placeholder="Password" required>
+        <select name="role" class="input-field" required>
+            <option value="student">Student</option>
+            <option value="club_admin">Club Coordinator</option>
+        </select>
+        <select name="club" class="input-field">
+            <option value="" disabled selected>Select Club (Students Only)</option>
+            {% for club in clubs %}<option value="{{ club.name }}">{{ club.name }}</option>{% endfor %}
+        </select>
+        <button type="submit" class="btn" style="width: 100%;">Submit for Approval</button>
+    </form>
+</div>
+{% endblock %}

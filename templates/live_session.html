@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* Overriding the base theme for a dark "Projector" mode */
+    body { background-color: #0A1128 !important; }
+    .container { max-width: 1000px !important; width: 95%; background-color: transparent !important; box-shadow: none !important; }
+    
+    .broadcast-container { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+    .code-panel { background: #111B3D; border: 1px solid #23356A; padding: 40px; border-radius: 16px; text-align: center; }
+    .side-panel { display: flex; flex-direction: column; gap: 20px; }
+    .panel-box { background: #111B3D; border: 1px solid #23356A; padding: 25px; border-radius: 16px; color: white;}
+    
+    .huge-code { 
+        display: flex; justify-content: center; gap: 15px; margin: 40px 0;
+    }
+    .digit { 
+        background: #1B2854; color: white; font-size: 72px; font-weight: bold; 
+        padding: 20px 30px; border-radius: 12px; border: 2px solid #384C8A;
+    }
+    
+    .timer { font-size: 64px; font-weight: bold; color: white; text-align: center; margin: 10px 0;}
+    .override-btn { background: linear-gradient(90deg, #845EC2, #D65DB1); color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;}
+</style>
+
+<div class="broadcast-container">
+    <!-- Left Side: Big Code -->
+    <div class="code-panel">
+        <p style="color: #A3CEF1; font-weight: bold; letter-spacing: 2px;">PROJECTOR DISPLAY • BROADCAST TO ALL STUDENTS</p>
+        
+        <div class="huge-code">
+            <div class="digit">7</div><div class="digit">4</div><div class="digit">9</div>
+            <div class="digit">2</div><div class="digit">0</div><div class="digit">1</div>
+        </div>
+        
+        <div style="display: flex; justify-content: center; gap: 15px;">
+            <button class="btn" style="width: auto; background: transparent; border: 1px solid #A3CEF1;">Copy Code</button>
+            <button class="btn" style="width: auto; background: transparent; border: 1px solid #A3CEF1;">Regenerate</button>
+        </div>
+    </div>
+
+    <!-- Right Side: Timer and Override -->
+    <div class="side-panel">
+        <div class="panel-box">
+            <p style="color: #A3CEF1; font-size: 12px; font-weight: bold;">SESSION VALIDITY</p>
+            <div class="timer">08:31</div>
+            <p style="text-align: center; color: #888; font-size: 14px;">15-Minute Broadcast Window</p>
+        </div>
+        
+        <div class="panel-box">
+            <p style="margin-bottom: 15px; font-size: 14px;">Attendance Exceptions</p>
+            <button class="override-btn" onclick="alert('Opening Manual Override Panel')">MANUAL OVERRIDE</button>
+            <p style="text-align: center; margin-top: 15px; font-size: 14px; color: #A3CEF1;">Verified Attendance: 8 / 12 Present</p>
+        </div>
+    </div>
+</div>
+
+<a href="/admin_dashboard" class="links" style="color: #A3CEF1; display: block; margin-top: 30px;">← Exit Broadcast Mode</a>
+{% endblock %}
