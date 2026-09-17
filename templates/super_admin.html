@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Approvals -->
+    <div class="bg-white p-6 rounded shadow">
+        <h3 class="text-xl font-bold mb-4 border-b pb-2">Pending Account Approvals</h3>
+        <ul class="space-y-3">
+            {% for user in pending_users %}
+            <li class="flex justify-between items-center bg-gray-50 p-3 rounded border">
+                <div>
+                    <div class="font-bold">{{ user.name }}</div>
+                    <div class="text-sm text-gray-600">{{ user.email }} ({{ user.role }})</div>
+                </div>
+                <form method="POST">
+                    <input type="hidden" name="action" value="approve_user">
+                    <input type="hidden" name="email" value="{{ user.email }}">
+                    <button class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">Approve</button>
+                </form>
+            </li>
+            {% else %}
+            <li class="text-gray-500 text-sm">No pending users.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Create Club -->
+    <div class="bg-white p-6 rounded shadow">
+        <h3 class="text-xl font-bold mb-4 border-b pb-2">Create New Club</h3>
+        <form method="POST" class="space-y-3">
+            <input type="hidden" name="action" value="create_club">
+            <input type="text" name="club_name" placeholder="Club Name" required class="w-full border p-2 rounded">
+            <input type="text" name="category" placeholder="Category (e.g. Analytics, Finance)" required class="w-full border p-2 rounded">
+            <textarea name="description" placeholder="Brief Description" class="w-full border p-2 rounded"></textarea>
+            <button class="bg-blue-600 text-white px-4 py-2 rounded w-full">Create Club</button>
+        </form>
+    </div>
+
+    <!-- Active Clubs & Assignments -->
+    <div class="bg-white p-6 rounded shadow md:col-span-2">
+        <h3 class="text-xl font-bold mb-4 border-b pb-2">Club Management & Assignments</h3>
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="p-2 border">Club Name</th>
+                    <th class="p-2 border">Category</th>
+                    <th class="p-2 border">Current Coordinator</th>
+                    <th class="p-2 border">Assign New Coordinator</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for club in clubs %}
+                <tr>
+                    <td class="p-2 border font-medium">{{ club.name }}</td>
+                    <td class="p-2 border text-sm">{{ club.category }}</td>
+                    <td class="p-2 border text-sm">{{ club.coordinator }}</td>
+                    <td class="p-2 border">
+                        <form method="POST" class="flex gap-2">
+                            <input type="hidden" name="action" value="assign_coordinator">
+                            <input type="hidden" name="club_id" value="{{ club.id }}">
+                            <select name="coordinator_email" class="border p-1 rounded text-sm w-full">
+                                {% for coord in coords %}
+                                <option value="{{ coord.email }}">{{ coord.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <button class="bg-gray-800 text-white px-2 py-1 rounded text-sm">Assign</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

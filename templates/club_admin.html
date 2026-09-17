@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-6 text-gray-800">{{ club.name }} Dashboard</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Generate Session Code -->
+    <div class="bg-white p-6 rounded shadow col-span-1">
+        <h3 class="text-xl font-bold mb-4 border-b pb-2">Generate Session TTL Code</h3>
+        <form method="POST" class="space-y-3">
+            <input type="hidden" name="action" value="create_event">
+            <input type="text" name="event_name" placeholder="Workshop / Event Name" required class="w-full border p-2 rounded">
+            <input type="date" name="date" required class="w-full border p-2 rounded">
+            <div class="flex gap-2">
+                <input type="time" name="start_time" required class="w-full border p-2 rounded">
+                <input type="time" name="end_time" required class="w-full border p-2 rounded">
+            </div>
+            <input type="text" name="venue" placeholder="Venue" required class="w-full border p-2 rounded">
+            <button class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded w-full font-bold">Generate Code (15 min limit)</button>
+        </form>
+    </div>
+
+    <!-- Active Sessions -->
+    <div class="bg-white p-6 rounded shadow col-span-2">
+        <h3 class="text-xl font-bold mb-4 border-b pb-2">Active Events</h3>
+        <ul class="space-y-3">
+            {% for event in events %}
+            <li class="bg-gray-50 p-4 rounded border flex justify-between items-center">
+                <div>
+                    <div class="font-bold text-lg">{{ event.name }}</div>
+                    <div class="text-sm text-gray-600">{{ event.date }} | {{ event.venue }}</div>
+                    <div class="text-red-700 font-mono font-bold mt-1 tracking-widest text-xl">CODE: {{ event.code }}</div>
+                </div>
+                {% if event.status == 'Active' %}
+                <form method="POST">
+                    <input type="hidden" name="action" value="cancel_event">
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                    <button class="bg-gray-800 text-white px-3 py-1 rounded text-sm hover:bg-black">Cancel</button>
+                </form>
+                {% else %}
+                <span class="text-gray-500 font-bold uppercase">{{ event.status }}</span>
+                {% endif %}
+            </li>
+            {% else %}
+            <li class="text-gray-500">No active events generated.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Manual Overrides -->
+    <div class="bg-white p-6 rounded shadow col-span-3">
+        <h3 class="text-xl font-bold mb-4 border-b pb-2">Manual Roster Override</h3>
+        <form method="POST" class="flex gap-4 items-center">
+            <input type="hidden" name="action" value="manual_override">
+            <input type="email" name="student_email" placeholder="Student Email" required class="border p-2 rounded w-1/4">
+            <input type="text" name="event_name" placeholder="Event Name" required class="border p-2 rounded w-1/4">
+            <select name="status" class="border p-2 rounded w-1/4">
+                <option value="Present">Present</option>
+                <option value="Excused">Excused (Medical/Duty)</option>
+                <option value="Absent">Absent</option>
+            </select>
+            <input type="text" name="reason" placeholder="Audit Reason" required class="border p-2 rounded w-1/4">
+            <button class="bg-yellow-600 text-white px-4 py-2 rounded font-bold">Apply Override</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

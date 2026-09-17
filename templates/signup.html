@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded shadow mt-10">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Account Registration</h2>
+    <form method="POST" action="{{ url_for('signup') }}">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+            <input type="text" name="name" required class="w-full border p-2 rounded">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+            <input type="email" name="email" required class="w-full border p-2 rounded">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+            <input type="password" name="password" required class="w-full border p-2 rounded">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Role Request</label>
+            <select name="role" class="w-full border p-2 rounded">
+                <option value="student">Student Member</option>
+                <option value="club_admin">Club Coordinator</option>
+                <option value="super_admin">System Admin</option>
+            </select>
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Select Club (Students Only)</label>
+            <select name="club" class="w-full border p-2 rounded">
+                <option value="">-- Select a Club --</option>
+                {% for club in clubs %}
+                    <option value="{{ club.name }}">{{ club.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="w-full bg-red-700 text-white font-bold py-2 px-4 rounded hover:bg-red-800">Request Access</button>
+    </form>
+    <div class="mt-4 text-center">
+        <a href="{{ url_for('login') }}" class="text-gray-600 text-sm hover:underline">Back to Login</a>
+    </div>
+</div>
+{% endblock %}

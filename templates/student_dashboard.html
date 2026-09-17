@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Live Check-In -->
+    <div class="bg-white p-6 rounded shadow col-span-1 border-t-4 border-red-700">
+        <h3 class="text-xl font-bold mb-4">Live Check-In</h3>
+        <p class="text-sm text-gray-600 mb-4">Enter the 6-digit code provided by the coordinator during the workshop.</p>
+        <form method="POST" class="space-y-4">
+            <input type="hidden" name="action" value="mark_attendance">
+            <input type="text" name="code" placeholder="Enter Code" required maxlength="6" class="w-full border-2 border-gray-300 p-4 rounded text-center text-2xl font-mono tracking-widest focus:border-red-700 outline-none">
+            <button class="bg-red-700 hover:bg-red-800 text-white px-4 py-3 rounded w-full font-bold text-lg">Mark Present</button>
+        </form>
+    </div>
+
+    <!-- KPI Metrics -->
+    <div class="bg-white p-6 rounded shadow col-span-2">
+        <h3 class="text-xl font-bold mb-4 border-b pb-2">My Analytics</h3>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-gray-50 p-6 text-center border rounded">
+                <div class="text-4xl font-black text-gray-800">{{ stats.avg_attendance }}%</div>
+                <div class="text-sm text-gray-500 uppercase tracking-wide mt-2">Overall Attendance</div>
+            </div>
+            <div class="bg-gray-50 p-6 text-center border rounded">
+                <div class="text-4xl font-black text-gray-800">{{ stats.workshops_attended }}</div>
+                <div class="text-sm text-gray-500 uppercase tracking-wide mt-2">Workshops Attended</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Log -->
+    <div class="bg-white p-6 rounded shadow col-span-3">
+        <h3 class="text-xl font-bold mb-4 border-b pb-2">Recent Records</h3>
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="p-3 border">Event</th>
+                    <th class="p-3 border">Status</th>
+                    <th class="p-3 border">Audit Trail</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td class="p-3 border font-medium">{{ record.event }}</td>
+                    <td class="p-3 border">
+                        <span class="px-2 py-1 rounded text-xs font-bold 
+                            {% if record.status == 'Present' %}bg-green-100 text-green-800
+                            {% elif record.status == 'Excused' %}bg-yellow-100 text-yellow-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                            {{ record.status }}
+                        </span>
+                    </td>
+                    <td class="p-3 border text-sm text-gray-500">{{ record.reason }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="3" class="p-3 border text-center text-gray-500">No attendance data logged yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
